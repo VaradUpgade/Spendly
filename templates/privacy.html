@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy – Spendly{% endblock %}
+
+{% block content %}
+<section class="terms-hero">
+    <div class="terms-hero-inner">
+        <span class="hero-badge">Privacy</span>
+        <h1 class="terms-title">Privacy Policy</h1>
+        <p class="terms-subtitle">Last updated: June 2025</p>
+    </div>
+</section>
+
+<section class="terms-body">
+    <div class="terms-container">
+
+        <div class="terms-card">
+
+            <div class="terms-section">
+                <div class="terms-section-icon">◎</div>
+                <div class="terms-section-content">
+                    <h2 class="terms-section-title">1. Data We Collect</h2>
+                    <p>When you use Spendly, we collect only the information necessary to provide the service. This includes:</p>
+                    <ul class="terms-list">
+                        <li>Account information — your name and email address provided at registration.</li>
+                        <li>Expense data — amounts, categories, dates, and notes you enter manually.</li>
+                        <li>Usage data — basic logs such as login timestamps, used to maintain account security.</li>
+                    </ul>
+                    <p>We do not collect payment information, location data, or any data from your device beyond what you explicitly enter.</p>
+                </div>
+            </div>
+
+            <div class="terms-section">
+                <div class="terms-section-icon">◈</div>
+                <div class="terms-section-content">
+                    <h2 class="terms-section-title">2. How We Use Your Data</h2>
+                    <p>Your data is used solely to operate and improve Spendly. Specifically, we use it to:</p>
+                    <ul class="terms-list">
+                        <li>Display your expenses and summaries within your personal dashboard.</li>
+                        <li>Authenticate your identity when you log in.</li>
+                        <li>Diagnose technical issues and improve the reliability of the service.</li>
+                    </ul>
+                    <p>We will never sell, rent, or trade your personal information to third parties for marketing or advertising purposes.</p>
+                </div>
+            </div>
+
+            <div class="terms-section">
+                <div class="terms-section-icon">§</div>
+                <div class="terms-section-content">
+                    <h2 class="terms-section-title">3. Data Storage</h2>
+                    <p>Your data is stored securely in a database accessible only to you and the application. We take reasonable technical precautions to protect your data, including:</p>
+                    <ul class="terms-list">
+                        <li>Passwords are stored as secure hashes — never in plain text.</li>
+                        <li>Database access is restricted and not publicly exposed.</li>
+                        <li>Sessions are managed securely to prevent unauthorized access.</li>
+                    </ul>
+                    <p>While we take data security seriously, no system is completely immune to risk. We encourage you to use a strong, unique password for your account.</p>
+                </div>
+            </div>
+
+            <div class="terms-section">
+                <div class="terms-section-icon">⊘</div>
+                <div class="terms-section-content">
+                    <h2 class="terms-section-title">4. Third Party Services</h2>
+                    <p>Spendly uses a small number of third-party services to deliver the experience, including:</p>
+                    <ul class="terms-list">
+                        <li><strong>Google Fonts</strong> — to load typography. Google may log the font request but receives no personal data from your account.</li>
+                        <li>No analytics platforms, advertising networks, or tracking pixels are used.</li>
+                    </ul>
+                    <p>We do not integrate with any financial institutions, payment processors, or external APIs that access your bank or card data.</p>
+                </div>
+            </div>
+
+            <div class="terms-section">
+                <div class="terms-section-icon">↻</div>
+                <div class="terms-section-content">
+                    <h2 class="terms-section-title">5. Contact Us</h2>
+                    <p>If you have any questions, concerns, or requests regarding your privacy or this policy — including requests to delete your account and data — please reach out to us directly.</p>
+                    <ul class="terms-list">
+                        <li>Email: <a href="mailto:hello@spendly.app">hello@spendly.app</a></li>
+                        <li>We aim to respond to all privacy-related requests within 5 business days.</li>
+                    </ul>
+                    <p>This policy may be updated occasionally. Continued use of Spendly after changes are posted means you accept the revised policy.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="terms-footer-note">
+            <p>Want to review our terms of use? <a href="{{ url_for('terms') }}">Read our Terms and Conditions</a></p>
+            <a href="{{ url_for('landing') }}" class="btn-ghost" style="margin-top: 1.25rem; display: inline-block;">← Back to Home</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
