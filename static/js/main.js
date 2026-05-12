@@ -42,3 +42,8 @@
         }
     });
 })();
+
+// Animate category breakdown bars on profile page
+document.querySelectorAll('.breakdown-bar-fill[data-width]').forEach(function(bar) {
+    bar.style.width = bar.dataset.width + '%';
+});
