@@ -108,3 +108,12 @@ def create_user(name, email, password):
     new_id = cursor.lastrowid
     conn.close()
     return new_id
+
+def get_user_by_email(email):
+    """Return the user row matching email, or None if not found."""
+    conn = get_db()
+    user = conn.execute(
+        "SELECT * FROM users WHERE email = ?", (email,)
+    ).fetchone()
+    conn.close()
+    return user
