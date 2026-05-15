@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime, date, timedelta
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session
 from database.db import get_db, init_db, seed_db, create_user, get_user_by_email
 from database.queries import get_user_by_id, get_summary_stats, get_recent_transactions, get_category_breakdown
@@ -118,15 +119,62 @@ def profile():
         session.clear()
         return redirect(url_for("login"))
 
-    stats        = get_summary_stats(session["user_id"])
-    transactions = get_recent_transactions(session["user_id"])
-    categories   = get_category_breakdown(session["user_id"])
+    # ── Date filter ────────────────────────────────────────────────
+    def parse_date(value):
+        try:
+            datetime.strptime(value, "%Y-%m-%d")
+            return value
+        except (ValueError, TypeError):
+            return None
+
+    date_from = parse_date(request.args.get("date_from", ""))
+    date_to   = parse_date(request.args.get("date_to", ""))
+
+    # If both present but range is inverted, flash and reset
+    if date_from and date_to and date_from > date_to:
+        flash("Start date must be before end date.")
+        date_from = date_to = None
+
+    # ── Preset ranges (computed in Python, not template) ───────────
+    today      = date.today()
+    first_of_month = today.replace(day=1)
+
+    presets = {
+        "this_month":   (first_of_month.strftime("%Y-%m-%d"),
+                         today.strftime("%Y-%m-%d")),
+        "last_3_months":(( today - timedelta(days=90)).strftime("%Y-%m-%d"),
+                         today.strftime("%Y-%m-%d")),
+        "last_6_months":(( today - timedelta(days=180)).strftime("%Y-%m-%d"),
+                         today.strftime("%Y-%m-%d")),
+        "all_time":     (None, None),
+    }
+
+    # ── Detect active preset ────────────────────────────────────────
+    active_preset = "all_time"
+    if date_from and date_to:
+        active_preset = "custom"
+        for key, (pf, pt) in presets.items():
+            if key != "all_time" and date_from == pf and date_to == pt:
+                active_preset = key
+                break
+
+    # ── Queries ─────────────────────────────────────────────────────
+    uid          = session["user_id"]
+    stats        = get_summary_stats(uid, date_from, date_to)
+    transactions = get_recent_transactions(uid, limit=10,
+                                           date_from=date_from,
+                                           date_to=date_to)
+    categories   = get_category_breakdown(uid, date_from, date_to)
 
     return render_template("profile.html",
-        user=user,
-        stats=stats,
-        transactions=transactions,
-        categories=categories,
+        user          = user,
+        stats         = stats,
+        transactions  = transactions,
+        categories    = categories,
+        date_from     = date_from or "",
+        date_to       = date_to   or "",
+        presets       = presets,
+        active_preset = active_preset,
     )
 
 
