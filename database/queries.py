@@ -147,3 +147,16 @@ def get_category_breakdown(user_id, date_from=None, date_to=None):
         result[0]["pct"] += (100 - pct_sum)
 
     return result
+
+def insert_expense(user_id, amount, category, date, description):
+    """Insert a new expense row. Expects pre-validated values."""
+    conn = get_db()
+    conn.execute(
+        """
+        INSERT INTO expenses (user_id, amount, category, date, description)
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (user_id, amount, category, date, description),
+    )
+    conn.commit()
+    conn.close()
