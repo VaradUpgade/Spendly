@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics — Spendly{% endblock %}
+
+{% block content %}
+<div class="analytics-page">
+
+    <div class="coming-soon-wrapper">
+
+        <!-- Icon -->
+        <div class="coming-soon-icon">◎</div>
+
+        <!-- Badge -->
+        <span class="hero-badge">Coming Soon</span>
+
+        <!-- Headline -->
+        <h1 class="coming-soon-title">
+            Analytics &amp; Insights
+        </h1>
+
+        <!-- Subtext -->
+        <p class="coming-soon-subtitle">
+            We're working on something powerful. Soon you'll be able to
+            visualise your spending trends, spot patterns, and make smarter
+            financial decisions — all in one place.
+        </p>
+
+        <!-- Feature preview cards -->
+        <div class="coming-soon-features">
+            <div class="cs-feature-card">
+                <div class="cs-feature-icon">₹</div>
+                <h3 class="cs-feature-title">Monthly Trends</h3>
+                <p class="cs-feature-body">
+                    See how your spending changes month over month with
+                    interactive bar and line charts.
+                </p>
+            </div>
+            <div class="cs-feature-card">
+                <div class="cs-feature-icon">◈</div>
+                <h3 class="cs-feature-title">Category Breakdown</h3>
+                <p class="cs-feature-body">
+                    Understand exactly where your money goes with
+                    a visual category-by-category analysis.
+                </p>
+            </div>
+            <div class="cs-feature-card">
+                <div class="cs-feature-icon">◷</div>
+                <h3 class="cs-feature-title">Smart Comparisons</h3>
+                <p class="cs-feature-body">
+                    Compare any two time periods side by side and
+                    see what changed in your spending habits.
+                </p>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="coming-soon-actions">
+            <a href="{{ url_for('profile') }}" class="btn-primary">
+                ← Back to Profile
+            </a>
+            <a href="{{ url_for('landing') }}" class="btn-ghost">
+                Go to Home
+            </a>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
