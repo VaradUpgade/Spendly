@@ -87,7 +87,7 @@ def get_recent_transactions(user_id, limit=10, date_from=None, date_to=None):
 
     rows = conn.execute(
         f"""
-        SELECT date, description, category, amount
+        SELECT id, date, description, category, amount
         FROM expenses {where}
         ORDER BY date DESC, created_at DESC
         LIMIT ?
@@ -98,6 +98,7 @@ def get_recent_transactions(user_id, limit=10, date_from=None, date_to=None):
 
     return [
         {
+            "id":          row["id"],
             "date":        row["date"],
             "description": row["description"] or "—",
             "category":    row["category"],
@@ -157,6 +158,31 @@ def insert_expense(user_id, amount, category, date, description):
         VALUES (?, ?, ?, ?, ?)
         """,
         (user_id, amount, category, date, description),
+    )
+    conn.commit()
+    conn.close()
+
+def get_expense_by_id(expense_id, user_id):
+    """Return expense row only if it belongs to user_id, else None."""
+    conn = get_db()
+    row  = conn.execute(
+        "SELECT * FROM expenses WHERE id = ? AND user_id = ?",
+        (expense_id, user_id),
+    ).fetchone()
+    conn.close()
+    return row
+
+
+def update_expense(expense_id, user_id, amount, category, date, description):
+    """Update an expense row. WHERE clause includes user_id for ownership safety."""
+    conn = get_db()
+    conn.execute(
+        """
+        UPDATE expenses
+        SET amount = ?, category = ?, date = ?, description = ?
+        WHERE id = ? AND user_id = ?
+        """,
+        (amount, category, date, description, expense_id, user_id),
     )
     conn.commit()
     conn.close()

@@ -8,6 +8,8 @@ from database.queries import (
     get_recent_transactions,
     get_category_breakdown,
     insert_expense,
+    get_expense_by_id,
+    update_expense,
 )
 from werkzeug.security import check_password_hash
 
@@ -262,9 +264,76 @@ def add_expense():
     return redirect(url_for("profile"))
 
 
-@app.route("/expenses/<int:id>/edit")
+@app.route("/expenses/<int:id>/edit", methods=["GET", "POST"])
 def edit_expense(id):
-    return "Edit expense — coming in Step 8"
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
+    expense = get_expense_by_id(id, session["user_id"])
+    if expense is None:
+        abort(404)
+
+    if request.method == "GET":
+        return render_template("edit_expense.html",
+            expense    = expense,
+            expense_id = id,
+            categories = VALID_CATEGORIES,
+        )
+
+    # POST — validate inputs
+    form = {
+        "amount":      request.form.get("amount", "").strip(),
+        "category":    request.form.get("category", "").strip(),
+        "date":        request.form.get("date", "").strip(),
+        "description": request.form.get("description", "").strip(),
+    }
+
+    # 1. Amount
+    try:
+        amount = float(form["amount"])
+        if amount <= 0:
+            raise ValueError
+    except ValueError:
+        flash("Amount must be a number greater than 0.")
+        return render_template("edit_expense.html",
+                expense    = form,
+                expense_id = id,
+                categories = VALID_CATEGORIES,
+            )
+    # 2. Category
+    if form["category"] not in VALID_CATEGORIES:
+        flash("Please select a valid category.")
+        return render_template("edit_expense.html",
+                expense    = form,
+                expense_id = id,
+                categories = VALID_CATEGORIES,
+            )
+
+    # 3. Date
+    try:
+        datetime.strptime(form["date"], "%Y-%m-%d")
+    except ValueError:
+        flash("Please enter a valid date.")
+        return render_template("edit_expense.html",
+                expense    = form,
+                expense_id = id,
+                categories = VALID_CATEGORIES,
+            )
+
+    # 4. Description — optional
+    description = form["description"] or None
+
+    update_expense(
+        expense_id  = id,
+        user_id     = session["user_id"],
+        amount      = amount,
+        category    = form["category"],
+        date        = form["date"],
+        description = description,
+    )
+
+    flash("Expense updated successfully!")
+    return redirect(url_for("profile"))
 
 
 @app.route("/expenses/<int:id>/delete")

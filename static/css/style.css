@@ -1005,6 +1005,28 @@ a { color: inherit; text-decoration: none; }
 .tx-amount     { text-align: right; font-weight: 500; color: var(--ink); }
 .tx-date       { color: var(--ink-muted); font-size: 0.85rem; }
 
+.tx-actions-col { text-align: center; width: 72px; }
+
+.tx-actions     { text-align: center; }
+
+.tx-edit-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--accent);
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--accent-light);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.tx-edit-link:hover {
+    background: var(--accent);
+    color: var(--paper);
+}
+
+
+
 /* Category badges */
 .category-badge {
     display: inline-block;
