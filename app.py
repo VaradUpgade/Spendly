@@ -10,6 +10,7 @@ from database.queries import (
     insert_expense,
     get_expense_by_id,
     update_expense,
+    delete_expense,
 )
 from werkzeug.security import check_password_hash
 
@@ -336,9 +337,18 @@ def edit_expense(id):
     return redirect(url_for("profile"))
 
 
-@app.route("/expenses/<int:id>/delete")
-def delete_expense(id):
-    return "Delete expense — coming in Step 9"
+@app.route("/expenses/<int:id>/delete", methods=["POST"])
+def delete_expense_route(id):
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
+    expense = get_expense_by_id(id, session["user_id"])
+    if expense is None:
+        abort(404)
+
+    delete_expense(id, session["user_id"])
+    flash("Expense deleted.")
+    return redirect(url_for("profile"))
 
 
 if __name__ == "__main__":

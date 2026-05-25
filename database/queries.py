@@ -186,3 +186,13 @@ def update_expense(expense_id, user_id, amount, category, date, description):
     )
     conn.commit()
     conn.close()
+
+def delete_expense(expense_id, user_id):
+    """Delete an expense row. WHERE scoped to both id and user_id for ownership safety."""
+    conn = get_db()
+    conn.execute(
+        "DELETE FROM expenses WHERE id = ? AND user_id = ?",
+        (expense_id, user_id),
+    )
+    conn.commit()
+    conn.close()

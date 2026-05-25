@@ -915,6 +915,13 @@ a { color: inherit; text-decoration: none; }
     margin-bottom: 0.2rem;
 }
 
+.profile-name-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 .profile-email {
     font-size: 0.9rem;
     color: var(--ink-muted);
@@ -1005,9 +1012,16 @@ a { color: inherit; text-decoration: none; }
 .tx-amount     { text-align: right; font-weight: 500; color: var(--ink); }
 .tx-date       { color: var(--ink-muted); font-size: 0.85rem; }
 
-.tx-actions-col { text-align: center; width: 72px; }
+.tx-actions-col { text-align: center; width: 130px; }
 
 .tx-actions     { text-align: center; }
+
+.tx-action-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
 
 .tx-edit-link {
     font-size: 0.8rem;
@@ -1025,7 +1039,25 @@ a { color: inherit; text-decoration: none; }
     color: var(--paper);
 }
 
+.btn-delete {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--danger);
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--danger-light);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: all 0.2s;
+    white-space: nowrap;
+}
 
+.btn-delete:hover {
+    background: var(--danger);
+    color: var(--paper);
+    border-color: var(--danger);
+}
 
 /* Category badges */
 .category-badge {
