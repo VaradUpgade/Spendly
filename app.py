@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from datetime import datetime, date, timedelta
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session
@@ -31,7 +32,10 @@ with app.app_context():
 
 @app.route("/")
 def landing():
-    return render_template("landing.html")
+    if __name__ == "__main__":
+        port = int(os.environ.get("PORT", 5000))
+        app.run(host="0.0.0.0", port=port)
+        return render_template("landing.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
